@@ -33,7 +33,7 @@ func main() {
 			Name:   "zone",
 			Usage:  "Cloudflare zone name",
 			Value:  "",
-			EnvVar: "CF_API_KEY",
+			EnvVar: "ZONE",
 		},
 		cli.StringSliceFlag{
 			Name: "names",
