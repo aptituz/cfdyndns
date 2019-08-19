@@ -1,0 +1,36 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: dnsupdate
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: dnsupdate
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: aptituz/cfdyndns:latest
+            name: dnsupdate
+            imagePullPolicy: Always
+            env:
+            - name: ZONE
+              value: chaosverbesserer.de
+            - name: CF_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare
+                  key: api_key
+            - name: CF_API_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare
+                  key: email  
+          restartPolicy: OnFailure
+  schedule: '*/2 * * * *'
+  concurrencyPolicy: Forbid
+
